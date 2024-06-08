@@ -4,5 +4,6 @@
     
     <string name="permission_granted">Permission granted !</string>
     <string name="permission_error">The app won\'t work without the camera permission !</string>
+    <string name="random_number_preview">Randomly generated number: %d</string>
 
 </resources>

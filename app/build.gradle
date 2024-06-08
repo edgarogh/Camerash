@@ -2,18 +2,23 @@ apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
 
-apply plugin: 'kotlin-android-extensions'
-
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    namespace = "fr.free.edgar35740.camerash"
+    compileSdk 34
     defaultConfig {
         applicationId "fr.free.edgar35740.camerash"
         minSdkVersion 21
-        targetSdkVersion 27
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
     }
     buildTypes {
         release {
@@ -25,20 +30,20 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support:design:27.1.1'
-    implementation 'gun0912.ted:tedpermission:2.1.0'
-    implementation 'com.jjoe64:graphview:4.2.1'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
+    implementation 'io.github.ParkSangGwon:tedpermission-normal:3.3.0'
+    implementation 'com.jjoe64:graphview:4.2.2'
     implementation 'com.github.entria:cameraview:G-SNAPSHOT'
 
-    testImplementation 'junit:junit:4.12'
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    testImplementation 'junit:junit:4.13.2'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.14'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 repositories {
     mavenCentral()
