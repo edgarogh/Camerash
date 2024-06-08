@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="permission_granted">Permission accordée !</string>
-    <string name="permission_error">L\'application ne pourra pas fonctionner sans accès à la caméra !</string>
     <string name="random_number_preview">Nombre généré aléatoirement: %d</string>
 
 </resources>

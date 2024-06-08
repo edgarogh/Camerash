@@ -30,4 +30,13 @@ class ChartController(private val view: GraphView, range: Int) {
         view.addSeries(chartData)
     }
 
+    fun toIntArray() = data.map { it.y }.toIntArray()
+
+    fun fromIntArray(state: IntArray) {
+        assert(state.size == data.size)
+        for (pair in data.asSequence().zip(state.asSequence())) {
+            pair.first.y = pair.second
+        }
+    }
+
 }

@@ -8,47 +8,30 @@
     android:layout_height="match_parent"
     tools:context="fr.free.edgar35740.camerash.MainActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            app:titleTextColor="@android:color/white" />
-
-    </com.google.android.material.appbar.AppBarLayout>
+    <include layout="@layout/activity_main_toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:divider="?android:dividerHorizontal"
+        android:layout_height="match_parent"
         android:orientation="vertical"
+        android:divider="?android:dividerHorizontal"
         android:showDividers="middle"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <TextView
-            android:id="@+id/text_byte"
+        <com.otaliastudios.cameraview.CameraView
+            android:id="@+id/camera"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:layout_weight="0"
-            tools:text="@tools:sample/date/hhmm" />
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:cameraAudio="off" />
+
+        <include layout="@layout/activity_main_result_num" />
 
         <com.jjoe64.graphview.GraphView
             android:id="@+id/view_graph"
             android:layout_width="match_parent"
             android:layout_height="200dip"
             android:layout_weight="0" />
-
-        <com.google.android.cameraview.CameraView
-            android:id="@+id/camera"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
 
     </LinearLayout>
 

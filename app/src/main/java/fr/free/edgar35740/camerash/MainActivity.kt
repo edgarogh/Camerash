@@ -1,21 +1,17 @@
 package fr.free.edgar35740.camerash
 
-import android.Manifest
 import android.os.Bundle
 import android.os.Handler
-import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import com.google.android.cameraview.CameraView
-import com.google.android.material.snackbar.Snackbar
-import com.gun0912.tedpermission.PermissionListener
-import com.gun0912.tedpermission.normal.TedPermission
+import com.otaliastudios.cameraview.CameraView
+import com.otaliastudios.cameraview.gesture.Gesture
+import com.otaliastudios.cameraview.gesture.GestureAction
 import kotlin.experimental.and
 
-class MainActivity : AppCompatActivity(), PermissionListener {
+class MainActivity : AppCompatActivity() {
 
-    private val content by lazy { findViewById<ViewGroup>(R.id.content) }
     private val toolbar by lazy { findViewById<Toolbar>(R.id.toolbar) }
     private val chart by lazy { ChartController(findViewById(R.id.view_graph), 16) }
     private val camera by lazy { findViewById<CameraView>(R.id.camera) }
@@ -31,55 +27,37 @@ class MainActivity : AppCompatActivity(), PermissionListener {
         }
     }
 
-    private var permissionGranted = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         setSupportActionBar(toolbar)
-
-        TedPermission.create()
-                .setPermissionListener(this)
-                .setDeniedMessage(resources.getString(R.string.permission_error))
-                .setPermissions(Manifest.permission.CAMERA)
-                .check()
-    }
-
-    private fun showSnackbar(message: String) {
-        Snackbar.make(content, message, Snackbar.LENGTH_SHORT).show()
-    }
-
-    private fun startCamera() {
-        if (!camera.isCameraOpened && permissionGranted) {
-            camera.autoFocus = true
-            camera.addCallback(frameCallback)
-            camera.scanning = true
-            camera.start()
-        }
+        camera.setLifecycleOwner(this)
+        camera.mapGesture(Gesture.TAP, GestureAction.AUTO_FOCUS)
     }
 
     override fun onResume() {
         super.onResume()
-        startCamera()
+        camera.addFrameProcessor(frameCallback)
+        camera.open()
     }
 
     override fun onPause() {
-        if (camera.isCameraOpened) {
-            camera.stop()
-            camera.removeCallback(frameCallback)
-        }
+        camera.close()
+        camera.clearFrameProcessors()
         super.onPause()
     }
 
-    override fun onPermissionGranted() {
-        startCamera()
-        permissionGranted = true
-        showSnackbar(resources.getString(R.string.permission_granted))
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putIntArray("chart", chart.toIntArray())
     }
 
-    override fun onPermissionDenied(deniedPermissions: MutableList<String>) {
-        finish()
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        savedInstanceState.getIntArray("chart")?.let { saved ->
+            chart.fromIntArray(saved)
+        }
     }
 
 }
